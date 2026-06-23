@@ -18,16 +18,33 @@ Built in Python using FastAPI, Redis, Celery, and real REST APIs.
 
 # Architecture
 
-Notion Leads
-|
-v
-FastAPI
-|
-v
-Redis Queue <----> Celery Workers
-|
-v
-Trello Tasks
+# Architecture
+
+           ┌─────────────┐
+           │   Notion    │
+           └──────┬──────┘
+                  │
+                  ▼
+           ┌─────────────┐
+           │   FastAPI   │
+           └──────┬──────┘
+                  │
+                  ▼
+           ┌─────────────┐
+           │    Redis    │
+           │ Task Queue  │
+           └──────┬──────┘
+                  │
+                  ▼
+           ┌─────────────┐
+           │   Celery    │
+           │   Workers   │
+           └──────┬──────┘
+                  │
+                  ▼
+           ┌─────────────┐
+           │   Trello    │
+           └─────────────┘
 
 | Notion Status | Trello List |
 | ------------- | ----------- |
@@ -126,15 +143,3 @@ Sync completed successfully.
 * Limited to main statuses
 * External API rate limits may affect sync speed
 * Small timestamp differences possible between tools
-
-# AI Usage Notes
-
-Used ChatGPT for:
-
-* Understanding Notion and Trello API authentication flows
-* Finding API keys, tokens, and board metadata
-* Designing retry strategies and error handling approaches
-* Reviewing timestamp conflict-resolution logic
-* Drafting README structure and documentation
-
-One suggestion I rejected: AI proposed adding additional workflow complexity and integrations; I kept the architecture focused on reliable synchronization between two systems.
